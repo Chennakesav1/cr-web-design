@@ -15,7 +15,7 @@ const designs = [
         id: 2, 
         name: "Cyber-Tech Architecture", 
         price: 40,
-        src: "./images/Screenshot 2026-05-03 102817.png",
+        src: "./images/Screenshot2026-05-03102817.png",
         description: "A dark-mode cyber aesthetic featuring glowing cyan accents, perfect for highlighting interactive UI/UX architecture.",
         url: "https://your-live-website-link.com/2" 
     },
@@ -23,7 +23,7 @@ const designs = [
         id: 3, 
         name: "Professional Minimalist", 
         price: 25,
-        src: "images/Screenshot 2026-05-03 102342.png",
+        src: "./images/Screenshot2026-05-03102342.png",
         description: "A high-contrast yellow and black theme focusing on clean typography and straightforward professional presentation.",
         url: "https://your-live-website-link.com/3" 
     },
@@ -31,7 +31,7 @@ const designs = [
         id: 4, 
         name: "Glassmorphism Frontend", 
         price: 35,
-        src: "images/Screenshot 2026-05-03 101801.png",
+        src: "./images/Screenshot2026-05-03101801.png",
         description: "Modern gradient text with smooth scroll interactions, ideal for showcasing mobile and software development experience.",
         url: "https://your-live-website-link.com/4" 
     },
@@ -39,7 +39,7 @@ const designs = [
         id: 5, 
         name: "CSE Developer Portfolio", 
         price: 45,
-        src: "images/Screenshot 2026-05-03 100720.png",
+        src: "./images/Screenshot2026-05-03100720.png",
         description: "A clean command-line style terminal interface designed specifically for Computer Science Engineers and full-stack developers.",
         url: "https://your-live-website-link.com/5" 
     },
@@ -47,7 +47,7 @@ const designs = [
         id: 6, 
         name: "Bold Typography", 
         price: 30,
-        src: "images/Screenshot 2026-05-03 095723.png",
+        src: "./images/Screenshot2026-05-03095723.png",
         description: "An ultra-modern, text-heavy landing page that immediately grabs attention with massive, responsive typography.",
         url: "https://your-live-website-link.com/6" 
     },
@@ -55,7 +55,7 @@ const designs = [
         id: 7, 
         name: "Hardware/Embedded Hub", 
         price: 40,
-        src: "images/Screenshot 2026-05-03 094808.png",
+        src: "./images/Screenshot2026-05-03094808.png",
         description: "A specialized portfolio theme featuring circuit board imagery and glowing green accents for embedded systems developers.",
         url: "https://your-live-website-link.com/7" 
     },
@@ -63,7 +63,7 @@ const designs = [
         id: 8, 
         name: "Future ECE Portfolio", 
         price: 35,
-        src: "images/Screenshot 2026-05-03 093319.png",
+        src: "./images/Screenshot2026-05-03093319.png",
         description: "A sleek, centered card-based design with soft blue ambient glows, tailored for Electronics & Communication Engineering students.",
         url: "https://your-live-website-link.com/8" 
     }
