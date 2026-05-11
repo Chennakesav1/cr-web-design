@@ -8,8 +8,8 @@
 
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="images/cr wed logo .png"> 
-    
+    <link rel="icon" type="image/png" href="images/cr wed logo .png">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.24/vanta.net.min.js"></script>
 </head>
@@ -40,8 +40,10 @@
 
     <section id="designs" class="container">
         <h2 class="section-title hidden">Our Collection</h2>
-        <p class="collection-desc hidden" style="text-align: center; max-width: 800px; margin: 0 auto 40px auto; color: #bbb; line-height: 1.6; font-size: 16px;">
-            These are sample designs we can customize according to customer requests with tailored UI/UX, special animation imports, and a dedicated clients section featuring pictures, descriptions, links, and ratings.
+        <p class="collection-desc hidden"
+            style="text-align: center; max-width: 800px; margin: 0 auto 40px auto; color: #bbb; line-height: 1.6; font-size: 16px;">
+            These are sample designs we can customize according to customer requests with tailored UI/UX, special
+            animation imports, and a dedicated clients section featuring pictures, descriptions, links, and ratings.
         </p>
 
         <div class="grid" id="product-grid">
@@ -54,12 +56,14 @@
         <div class="modal-content" style="text-align: center; position: relative; max-width: 400px;">
             <span class="close-btn" onclick="closePhoneModal()">&times;</span>
             <h2 style="margin-bottom: 10px; color: var(--primary);">Welcome!</h2>
-            <p style="margin-bottom: 20px; color: #ccc; font-size: 14px;">Enter your phone number to get a custom quote and design consultation.</p>
-            
+            <p style="margin-bottom: 20px; color: #ccc; font-size: 14px;">Enter your phone number to get a custom quote
+                and design consultation.</p>
+
             <div class="form-group">
-                <input type="tel" id="visitor-phone" placeholder="Enter Phone Number" required style="text-align: center; font-size: 16px;">
+                <input type="tel" id="visitor-phone" placeholder="Enter Phone Number" required
+                    style="text-align: center; font-size: 16px;">
             </div>
-            
+
             <button class="btn-primary" onclick="submitPhone()" style="width: 100%;">Submit</button>
         </div>
     </div>
@@ -69,7 +73,8 @@
         <div class="about-content">
             <div class="about-text hidden">
                 <h3>We Build Digital Careers</h3>
-                <p>We provide high-quality HTML/CSS templates. Simply download, edit the text, and upload to your hosting.</p>
+                <p>We provide high-quality HTML/CSS templates. Simply download, edit the text, and upload to your
+                    hosting.</p>
             </div>
             <div class="about-image hidden">
                 <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600" alt="Team">
@@ -77,7 +82,8 @@
             <div class="about-text hidden">
                 <h3>Empowering Students to Build, Not Just Learn</h3>
                 <p>We create high-impact digital learning experiences that turn beginners into confident developers.</p>
-                <p>No unnecessary theory. No outdated methods. Just modern tools, structured guidance, and real implementation.</p>
+                <p>No unnecessary theory. No outdated methods. Just modern tools, structured guidance, and real
+                    implementation.</p>
             </div>
         </div>
     </section>
@@ -88,16 +94,31 @@
             <form id="contact-form">
                 <div class="form-group"><label>Name</label><input id="name" name="name" type="text" required></div>
                 <div class="form-group"><label>Email</label><input type="email" id="email" name="email"></div>
-                <div class="form-group"><label>Message</label><textarea rows="5" id="message" name="message" required></textarea></div>
+                <div class="form-group"><label>Message</label><textarea rows="5" id="message" name="message"
+                        required></textarea></div>
                 <button type="submit" class="btn-primary">Send Message via WhatsApp</button>
             </form>
-             <div class="success-message" id="successMessage" style="display:none">
+            <div class="success-message" id="successMessage" style="display:none">
                 Redirecting to WhatsApp...
             </div>
         </div>
     </section>
 
     <!-- Cart Modal -->
+
+
+    <footer>
+        <p>&copy; 2026 C.R Web Designing. All rights reserved.</p>
+        <div class="social-bar">
+            <a href="https://github.com/Chennakesav1" class="social-item github" target="_blank"><i
+                    class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/chennakesavarao-kancharla-634911373" class="social-item linkedin"
+                target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://www.instagram.com/____chennakesava____" class="social-item instagram" target="_blank"><i
+                    class="fab fa-instagram"></i></a>
+        </div>
+    </footer>
+
     <div id="cart-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -105,23 +126,14 @@
                 <h2>Your Cart</h2>
                 <div id="cart-items"></div>
                 <div class="cart-total" style="margin-top: 20px;">
-                    <h3>Total: $<span id="total-price">0</span></h3>
+                    <h3>Total: ₹<span id="total-price">0</span></h3>
                 </div>
-                <button id="checkout-btn" class="btn-checkout" onclick="checkoutWithWhatsApp()" style="width: 100%;">
-                    <i class="fab fa-whatsapp"></i> Checkout via WhatsApp
+                <button id="checkout-btn" class="btn-checkout" onclick="startRazorpayCheckout()" style="width: 100%;">
+                    <i class="fas fa-credit-card"></i> Pay & Checkout
                 </button>
             </div>
         </div>
     </div>
-
-    <footer>
-        <p>&copy; 2026 C.R Web Designing. All rights reserved.</p>
-        <div class="social-bar">
-            <a href="https://github.com/Chennakesav1" class="social-item github" target="_blank"><i class="fab fa-github"></i></a>
-            <a href="https://www.linkedin.com/in/chennakesavarao-kancharla-634911373" class="social-item linkedin" target="_blank"><i class="fab fa-linkedin"></i></a>
-            <a href="https://www.instagram.com/____chennakesava____" class="social-item instagram" target="_blank"><i class="fab fa-instagram"></i></a>
-        </div>
-    </footer>
 
     <script>
         VANTA.NET({
@@ -140,7 +152,9 @@
             spacing: 18.00
         })
     </script>
-    
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>

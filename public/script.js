@@ -179,24 +179,87 @@ function closeModal() {
     if(cartModal) cartModal.style.display = 'none'; 
 }
 
-// --- WHATSAPP CHECKOUT ---
-function checkoutWithWhatsApp() {
+// --- RAZORPAY CHECKOUT & WHATSAPP REDIRECT ---
+async function startRazorpayCheckout() {
     if (cart.length === 0) {
         alert("Your cart is empty!");
         return;
     }
 
-    let message = "Hello C.R Web Designing, I am interested in purchasing the following templates:\n\n";
-    cart.forEach(item => {
-        message += `▪️ ${item.name} ($${item.price})\n`;
-    });
-    
-    const total = cart.reduce((sum, item) => sum + item.price, 0);
-    message += `\n*Total: $${total}*\n\nPlease let me know how to proceed with the payment!`;
+    // 1. Calculate Total
+    const totalINR = cart.reduce((sum, item) => sum + item.price, 0);
 
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappNumber = "917989004552"; 
-    window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
+    try {
+        // 2. Ask your backend to create a Razorpay Order
+        const response = await fetch('/create-order', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ amount: totalINR * 100 }) // Razorpay expects paise
+        });
+        
+        const order = await response.json();
+
+        // 3. Configure the Razorpay Popup
+        const options = {
+            "key": "rzp_test_SHcTCPb8RlHOiw", // ⚠️ Make sure this matches your Razorpay Key ID!
+            "amount": order.amount,
+            "currency": "INR",
+            "name": "C.R Web Designing",
+            "description": "Premium Templates Purchase",
+            "order_id": order.id,
+            "handler": async function (response) {
+                
+                // 4. Payment is captured! Now verify it on the backend.
+                const verifyRes = await fetch('/verify-payment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        razorpay_order_id: response.razorpay_order_id,
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_signature: response.razorpay_signature
+                    })
+                });
+
+                const verifyData = await verifyRes.json();
+                
+                if(verifyData.success){
+                    // 5. If verified successfully, show the details to the user!
+                    alert(`✅ Payment Successful!\n\nAmount: ₹${totalINR}\nPayment ID: ${response.razorpay_payment_id}\n\nRedirecting you to WhatsApp to claim your files...`);
+                    
+                    // 6. Generate the formatted WhatsApp message
+                    let waMessage = `✅ *Payment Successful!*\n\nHello C.R Web Designing, I have successfully paid ₹${totalINR} for the following templates:\n\n`;
+                    cart.forEach(item => {
+                        waMessage += `▪️ ${item.name}\n`;
+                    });
+                    waMessage += `\n*Payment ID:* ${response.razorpay_payment_id}\n*Order ID:* ${response.razorpay_order_id}\n\nPlease send me the template files!`;
+
+                    // 7. Open WhatsApp automatically
+                    const encodedMessage = encodeURIComponent(waMessage);
+                    const whatsappNumber = "917989004552";
+                    window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
+
+                    // 8. Clear the cart
+                    cart = [];
+                    updateCartUI();
+                    closeModal();
+                } else {
+                    alert("Payment Verification Failed. Please contact support.");
+                }
+            },
+            "theme": { "color": "#bb86fc" } // Matches your website's purple theme
+        };
+
+        // Open the Razorpay Payment Window
+        const rzp = new Razorpay(options);
+        rzp.on('payment.failed', function (response){
+            alert("Payment Failed: " + response.error.description);
+        });
+        rzp.open();
+
+    } catch (error) {
+        console.error("Checkout Error:", error);
+        alert("Something went wrong initializing the payment gateway. Is your server running?");
+    }
 }
 
 // --- WHATSAPP CONTACT FORM ---
