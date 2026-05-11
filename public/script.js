@@ -262,31 +262,7 @@ async function startRazorpayCheckout() {
     }
 }
 
-// --- WHATSAPP CONTACT FORM ---
-document.addEventListener("DOMContentLoaded", function () {
-    const contactForm = document.getElementById("contact-form");
-    if (contactForm) {
-        contactForm.addEventListener("submit", function (event) {
-            event.preventDefault();
-            
-            const name = document.getElementById("name").value;
-            const email = document.getElementById("email").value;
-            const userMessage = document.getElementById("message").value;
-            
-            const whatsappMessage = `Hello, my name is ${name}.\nEmail: ${email}\n\nMessage: ${userMessage}`;
-            const encodedMessage = encodeURIComponent(whatsappMessage);
-            const whatsappNumber = "917989004552";
-            
-            window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
-            
-            document.getElementById("successMessage").style.display = "block";
-            this.reset();
-            setTimeout(() => {
-                document.getElementById("successMessage").style.display = "none";
-            }, 3000);
-        });
-    }
-});
+
 
 // --- PHONE NUMBER POPUP LOGIC ---
 document.addEventListener("DOMContentLoaded", () => {
