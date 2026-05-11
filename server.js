@@ -1,0 +1,131 @@
+// server.js - Final Clean Version (With Payment Saving & Environment Variables)
+
+require('dotenv').config(); // 👈 MUST BE AT THE VERY TOP
+
+const express = require('express');
+const mongoose = require('mongoose');
+
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const Razorpay = require('razorpay');
+const crypto = require('crypto');
+const path = require('path');
+
+
+const dns = require('dns');
+dns.setDefaultResultOrder('ipv4first');
+
+const app = express();
+app.use(cors());
+app.use(bodyParser.json());
+
+// 👈 IMPORTANT: Serve static files safely from the 'public' folder
+app.use(express.static(path.join(__dirname, 'public')));
+
+// ==========================================
+// 1. CONFIGURATION (USING .ENV SECRETS)
+// ==========================================
+
+// ⚠️ MONGODB (Hidden securely)
+const MONGO_URI = process.env.MONGO_URI;
+
+// ⚠️ GOOGLE EMAIL (Hidden securely)
+
+
+// ⚠️ RAZORPAY KEYS (Hidden securely)
+const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID;
+const RAZORPAY_SECRET = process.env.RAZORPAY_SECRET;
+
+// ==========================================
+// 2. DATABASE & SCHEMAS
+// ==========================================
+
+mongoose.connect(MONGO_URI)
+    .then(() => console.log("✅ MongoDB Connected"))
+    .catch(err => console.error("❌ DB Connection Error:", err));
+
+
+// Payment Schema
+const paymentSchema = new mongoose.Schema({
+    orderId: String,
+    paymentId: String,
+    signature: String,
+    amount: Number,
+    currency: String,
+    status: String,
+    date: { type: Date, default: Date.now }
+});
+const Payment = mongoose.model('Payment', paymentSchema);
+
+// ==========================================
+// 3. INITIALIZE SERVICES
+// ==========================================
+
+//helloword
+
+const razorpay = new Razorpay({
+    key_id: RAZORPAY_KEY_ID,
+    key_secret: RAZORPAY_SECRET
+});
+
+
+
+// --- PAYMENT ROUTE 1: CREATE ORDER ---
+app.post('/create-order', async (req, res) => {
+    try {
+        const { amount } = req.body;
+        const options = {
+            amount: amount,
+            currency: "INR",
+            receipt: "receipt_" + Math.random().toString(36).substring(7),
+        };
+        const order = await razorpay.orders.create(options);
+        res.json(order);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
+// --- PAYMENT ROUTE 2: VERIFY & SAVE ---
+app.post('/verify-payment', async (req, res) => {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+
+    const generated_signature = crypto
+        .createHmac('sha256', RAZORPAY_SECRET)
+        .update(razorpay_order_id + "|" + razorpay_payment_id)
+        .digest('hex');
+
+    if (generated_signature === razorpay_signature) {
+       
+        // 👇 SAVE TO MONGODB
+        try {
+            const newPayment = new Payment({
+                orderId: razorpay_order_id,
+                paymentId: razorpay_payment_id,
+                signature: razorpay_signature,
+                amount: 0, // Ideally pass this from frontend or fetch from Razorpay
+                currency: "INR",
+                status: "success"
+            });
+           
+            await newPayment.save();
+            console.log("✅ Payment Saved to DB:", razorpay_payment_id);
+            res.json({ success: true, message: "Payment Verified & Saved" });
+
+        } catch (dbError) {
+            console.error("Database Save Error:", dbError);
+            res.status(500).json({ success: false, message: "Payment verified but DB save failed" });
+        }
+
+    } else {
+        res.status(400).json({ success: false, message: "Invalid Signature" });
+    }
+});
+
+// ==========================================
+// 5. START SERVER
+// ==========================================
+
+// 👈 IMPORTANT: Use dynamic port for Render
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

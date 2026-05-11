@@ -1,0 +1,499 @@
+/* --- VARIABLES & RESET --- */
+:root {
+    --primary: #bb86fc;
+    --secondary: #03dac6;
+    --bg: #121212;
+    --card-bg: #1e1e1e;
+    --text: #e0e0e0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+body { background-color: var(--bg); color: var(--text); overflow-x: hidden; }
+
+/* --- ANIMATIONS --- */
+@keyframes float { 0% { transform: translateY(0px); } 100% { transform: translateY(-10px); } }
+.hidden { opacity: 0; transform: translateY(50px); transition: all 0.8s ease-out; }
+.show { opacity: 1; transform: translateY(0); }
+
+/* --- NAVIGATION --- */
+nav {
+    display: flex; justify-content: space-between; align-items: center; padding: 20px 5%;
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(30, 30, 30, 0.8); backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.btn-checkout {
+  display: inline-block;
+  padding: 12px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #2ecc71;
+  color: white;
+  border: 2px solid #2ecc71;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 30px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+#vanta-bg {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+    opacity: 60%; 
+}
+/* Base style for the Back button */
+#btn-back {
+    background-color: transparent;   
+    border: 2px solid rgba(255, 255, 255, 0.3); 
+    color: #bbbbbb;                  
+    padding: 10px 24px;
+    border-radius: 8px;              
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 20px;                
+    transition: all 0.3s ease;       
+    display: inline-block;
+}
+
+/* Hover Effect */
+#btn-back:hover {
+    border-color: #ffffff;           
+    color: #ffffff;                  
+    transform: translateX(-5px);     
+    background-color: rgba(255, 255, 255, 0.1); 
+}
+/* Hover Effect */
+.btn-checkout:hover {
+  background-color: white;
+  color: #2ecc71;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* Click effect */
+.btn-checkout:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+.logo { font-size: 1.5rem; color: var(--primary); font-weight: bold; }
+.nav-links { list-style: none; display: flex; gap: 30px; }
+.nav-links a { text-decoration: none; color: #fff; transition: 0.3s; }
+.nav-links a:hover { color: var(--primary); }
+.cart-icon { cursor: pointer; background: var(--secondary); color: #000; padding: 8px 15px; border-radius: 20px; font-weight: bold; transition: 0.3s; }
+.cart-icon:hover { transform: scale(1.1); box-shadow: 0 0 15px var(--secondary); }
+
+/* --- HERO --- */
+.hero {
+    position: relative; text-align: center; height: 80vh;
+    display: flex; justify-content: center; align-items: center;
+    background: url('https://source.unsplash.com/random/1920x1080/?technology') center/cover;
+}
+.hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); }
+.hero-content { position: relative; z-index: 2; }
+.hero h1 { font-size: 4rem; margin-bottom: 20px; }
+.hero button {  margin-top: 40px;  padding: 15px 40px; background: transparent; color: var(--primary); border: 2px solid var(--primary); font-size: 1.2rem; cursor: pointer; border-radius: 30px; transition: 0.3s; }
+.hero button:hover { background: var(--primary); color: #000; box-shadow: 0 0 20px var(--primary); }
+
+/* --- GRID & 3D CARDS --- */
+.container { padding: 80px 10%; }
+/* 1. Removed perspective */
+.grid { 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 40px; 
+}
+
+/* 2. Removed transform-style: preserve-3d */
+.card {
+    background: var(--card-bg); 
+    border-radius: 15px; 
+    overflow: hidden;
+    transition: transform 0.3s ease-out; /* Smoothed out transition */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+/* 3. Removed transform: translateZ(30px) */
+.media-container {
+    width: 100%; 
+    aspect-ratio: 16 / 9; 
+    overflow: hidden; 
+    background-color: #000; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 4. Removed transform: translateZ(30px) */
+.card-content { 
+    padding: 25px; 
+    background: var(--card-bg); 
+}
+.card-media {
+    width: 100%; 
+    height: 100%; 
+    display: block; /* Removes weird spacing underneath videos */
+    
+    /* CHOOSE ONE OF THE FOLLOWING: */
+    
+    /* Option A: Shows the whole video, no zooming, but might add black bars on the sides/top */
+    object-fit: contain; 
+    
+    /* Option B: Fills the entire box perfectly, but will zoom/crop the edges of the video */
+    /* object-fit: cover; */
+}
+
+.about-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.about-text {
+    flex: 1;
+    font-weight: 400;
+}
+
+.about-image {
+    flex: 1;
+}
+
+.about-image img {
+    width: 100%;
+    border-radius: 12px;
+}
+.about-heading {
+    font-size: 28px;      
+    font-weight: 700;     
+    margin-bottom: 20px;  
+}
+
+.about-text p {
+    font-size: 16px;
+    line-height: 1.8;     
+    margin-bottom: 15px;  
+}
+.form-group {
+    margin-bottom: 25px; 
+}
+
+.form-group label {
+    display: block;      
+    margin-bottom: 8px;  
+    font-size: 16px;
+    color: #ffffff;      
+    font-weight: 500;
+}
+#product-grid {
+    position: relative;
+    z-index: 20;
+}
+
+.form-group input, 
+.form-group textarea {
+    width: 100%;         
+    padding: 12px 15px;  
+    border-radius: 8px;  
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+    background-color: rgba(255, 255, 255, 0.1); 
+    color: #fff;         
+    font-size: 14px;
+    outline: none;       
+    box-sizing: border-box; 
+}
+.section-title{
+    font-weight: 700;
+    margin-bottom: 40px;
+    font-size: 32px;
+    text-align: center;
+    color: #ffffff;
+}
+.btn-primary {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: #4a90e2; 
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 30px; 
+    cursor: pointer;
+    transition: all 0.3s ease; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 15px; 
+}
+
+.btn-primary:hover {
+    background-color: #357abd; 
+    transform: translateY(-2px); 
+    box-shadow: 0 6px 12px rgba(74, 144, 226, 0.4); 
+}
+
+.btn-primary:active {
+    transform: translateY(1px); 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-group input:focus, 
+.form-group textarea:focus {
+    border-color: #4a90e2; 
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.btn-primary {
+    margin-top: 10px;
+    padding: 12px 24px;
+    cursor: pointer;
+}
+
+.card-content { padding: 25px; transform: translateZ(30px); background: var(--card-bg); }
+.card-title { font-size: 1.4rem; margin-bottom: 10px; color: #fff; }
+.card-total{ margin-top: 20px;}
+.card-price {  margin-top: 20px;  font-size: 1.2rem; color: var(--secondary); font-weight: bold; display: block; margin-bottom: 15px; }
+.btn-buy { width: 100%; padding: 12px; border: none; border-radius: 8px; background: linear-gradient(45deg, var(--primary), #9965f4); color: white; font-weight: bold; cursor: pointer; transition: 0.3s; }
+.btn-buy:hover { filter: brightness(1.2); }
+
+/* --- FORMS & MODAL --- */
+input, textarea { width: 100%; padding: 15px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 8px; margin-bottom: 15px; }
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 200; }
+.modal-content { background: #1e1e1e; margin: 5% auto; padding: 40px; width: 90%; max-width: 500px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); animation: float 3s ease-in-out infinite alternate; }
+.close-btn { float: right; font-size: 24px; cursor: pointer; color: #fff; }
+.about-content { display: flex; gap: 40px; align-items: center; flex-wrap: wrap; }
+.about-image img { width: 100%; max-width: 500px; border-radius: 10px; }
+footer { text-align: center; padding: 40px; background: #000; margin-top: 50px; color: #666; }
+.floating-ig {
+    position: fixed;          
+    bottom: 30px;             
+    right: 30px;              
+    width: 60px;              
+    height: 60px;
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); 
+    border-radius: 50%;       
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
+    z-index: 1000;            
+    transition: all 0.3s ease; 
+}
+
+.floating-ig:hover {
+    transform: translateY(-5px) scale(1.1); 
+    box-shadow: 0 8px 25px rgba(214, 36, 159, 0.5); 
+}
+
+.social-bar {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    flex-direction: column; 
+    gap: 15px;              
+    z-index: 1000;          
+}
+
+.social-item {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;     
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    transition: all 0.3s ease; 
+    cursor: pointer;
+}
+
+
+.social-item.github {
+    background-color: #333;
+}
+
+.social-item.linkedin {
+    background-color: #0077b5;
+}
+
+.social-item.instagram {
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+}
+
+.social-item:hover {
+    transform: translateX(-5px) scale(1.1);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.5);
+}
+
+/* =========================================
+   RESPONSIVE DESIGN (Tablets & Mobiles)
+   ========================================= */
+
+/* Tablets (768px and below) */
+@media screen and (max-width: 768px) {
+    /* Adjust grid to 2 columns on tablets */
+    #product-grid, .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    /* Stack navigation */
+    nav {
+        flex-direction: column;
+        padding: 15px;
+        text-align: center;
+        gap: 15px;
+    }
+    .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        padding: 0;
+    }
+    
+    /* Adjust Hero Text */
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+    
+    /* Stack About Section vertically */
+    .about-content {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+    .about-image img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
+
+    /* Fix Modal for mobile */
+    .modal-content {
+        width: 90%;
+        margin: 10% auto;
+        padding: 20px;
+    }
+}
+
+/* Mobile Phones (480px and below) */
+@media screen and (max-width: 480px) {
+    /* Adjust grid to 1 column on mobile phones */
+    #product-grid, .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+    .hero-content p {
+        font-size: 1rem;
+    }
+    
+    /* Make nav links stack on very small screens */
+    .nav-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    /* Stack Footer elements */
+    footer {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+}
+
+
+/* =========================================
+   RESPONSIVE DESIGN (Tablets & Mobiles)
+   ========================================= */
+
+/* Tablets (768px and below) */
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 60px 5%; /* Reduces wasted space on the sides */
+    }
+
+    #product-grid, .grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
+        gap: 20px;
+    }
+
+    nav {
+        flex-direction: column;
+        padding: 15px;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+    
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .about-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+    
+    .about-image img {
+        width: 100%;
+        height: auto;
+    }
+
+    .modal-content {
+        width: 90%;
+        margin: 10% auto;
+        padding: 20px;
+    }
+}
+
+/* Mobile Phones (480px and below) */
+@media screen and (max-width: 480px) {
+    .container {
+        padding: 40px 15px; /* Maximizes screen real estate for mobile cards */
+    }
+
+    #product-grid, .grid {
+        grid-template-columns: 1fr; /* 1 card per row */
+        gap: 25px;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .nav-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .card-content {
+        padding: 15px; /* Tighter padding inside cards for mobile */
+    }
+
+    /* Scales down the floating social buttons so they don't block content */
+    .social-bar, .floating-ig {
+        transform: scale(0.8);
+        transform-origin: bottom right;
+        bottom: 15px;
+        right: 15px;
+    }
+    
+    footer {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
